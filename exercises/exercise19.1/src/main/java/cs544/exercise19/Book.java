@@ -1,4 +1,4 @@
-package cs544.exercise19_1;
+package cs544.exercise19;
 
 public class Book {
 	private int id;
