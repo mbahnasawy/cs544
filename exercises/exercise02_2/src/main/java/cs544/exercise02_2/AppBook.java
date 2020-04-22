@@ -1,4 +1,4 @@
-package edu.mum.cs.cs544.exercises;
+package cs544.exercise02_2;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -125,12 +125,12 @@ public class AppBook {
 			tx = session.beginTransaction();
 
 			// Retrieve a book from the database 
-			Book book1 = (Book)session.get(Book.class, 1); // 1 here it will be the Id of the generated book in task 1
+			Book book1 = (Book)session.get(Book.class, 1L); // 1 here it will be the Id of the generated book in task 1
 			book1.setTitle("Clean Code version 2");
 			book1.setPrice(14.0);
 			
 			// Delete a book from the database
-			Book book2 = (Book)session.load(Book.class, 2); // using load here to decrease database hits to be just 1 hit.
+			Book book2 = (Book)session.load(Book.class, 2L); // using load here to decrease database hits to be just 1 hit.
 			session.delete(book2);
 			
 			tx.commit();
@@ -149,7 +149,7 @@ public class AppBook {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
+
 		System.out.println("-------- Task 1 ---------------- ");
 		task1();
 		System.out.println("------------------------ ");

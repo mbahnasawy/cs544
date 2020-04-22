@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+	<class name="cs544.exercise02_2.Book" table="book">
+		<id name="id" type="long" column="id">
+			<generator class="native"/>
+		</id>
+		<property name="title" type="string"/>
+		<property name="ISBN" type="string"/>
+		<property name="author" type="string"/>
+		<property name="price" type="double"/>
+		<property name="publish_date" type="date"/>
+	</class>
+</hibernate-mapping>
