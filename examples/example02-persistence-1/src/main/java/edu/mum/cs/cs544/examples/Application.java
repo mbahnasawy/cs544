@@ -31,16 +31,21 @@ public class Application {
 			
 			// Create new instance of Employee and set values in it
 			Person person1 = new Person("John", "Doe");
-			Person person2 = new Person("Frank", "Miller");
 			
 			// save the person
+			System.out.println("1");
 			session.persist(person1);
-			session.persist(person2);
-			System.out.println(person1);
-			session.persist(person1);
-			System.out.println(person1);
+			System.out.println("2");
+			person1.setFirstname("Moustafa");
+			System.out.println("3");
+			person1.setLastname("Bahnasawy");
+			System.out.println("4");
+			
+			Person p1 = (Person)session.get(Person.class, person1.getId());
+			System.out.println("5");
 
 			tx.commit();
+			System.out.println("6");
 		} catch (HibernateException e) {
 			tx.rollback();
 			e.printStackTrace();
