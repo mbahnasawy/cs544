@@ -23,7 +23,8 @@ public class BidirectionalManyToOneApp {
 	}
 
 	/*
-	 * • creates two cars, and associates an owner with each one before persisting it
+	 * • creates two cars, and associates an owner with each one before persisting
+	 * it
 	 * 
 	 */
 	public static void task1() {
@@ -35,19 +36,17 @@ public class BidirectionalManyToOneApp {
 			session = sessionFactory.openSession();
 			tx = session.beginTransaction();
 
-			// Create new instance of book1 and set values in it
-			Owner owner1 = new Owner("Moustafa", "Egypt");
-			// save the car
-			session.persist(owner1);
+			Department d1 = new Department("HR");
+			session.persist(d1);
 			
-		    // Create new instance of Car and set values in it
-            Car car1 = new Car("BMW", "SDA231", 30221.00, owner1);
-            // save the car
-            session.persist(car1);
-            // Create new instance of Car and set values in it
-            Car car2 = new Car("Mercedes", "HOO100", 4088.00, owner1);
-            // save the car
-            session.persist(car2);
+			Office f1 = new Office("223", "140");
+			session.persist(f1);
+
+			Employee e1 = new Employee("Moustafa");
+			session.persist(e1);
+
+			d1.addEmployee(e1);
+			f1.addEmployee(e1);
 
 			tx.commit();
 
@@ -77,13 +76,17 @@ public class BidirectionalManyToOneApp {
 			session = sessionFactory.openSession();
 			tx = session.beginTransaction();
 
-		     // retieve all cars
-            @SuppressWarnings("unchecked")
-            List<Car> carList = session.createQuery("from Car").list();
-            for (Car car : carList) {
-                System.out.println(car.toString());
-            }
-            tx.commit();
+			// retieve all cars
+			@SuppressWarnings("unchecked")
+			List<Department> dList = session.createQuery("from Department").list();
+			for (Department d : dList) {
+				System.out.println("Departement:" + d.getName());
+				System.out.println("Include Employees");
+				for (Employee e : d.getEmployees()) {
+					System.out.println("Emplyee " + e.getName() + " who is working at building " + e.getOffice().getBuildingNumber());
+				}
+			}
+			tx.commit();
 
 		} catch (HibernateException e) {
 			if (tx != null) {
@@ -108,8 +111,6 @@ public class BidirectionalManyToOneApp {
 		System.out.println("-------- Task 2 ---------------- ");
 		task2();
 		System.out.println("------------------------ ");
-
-
 
 		System.exit(0);
 	}
