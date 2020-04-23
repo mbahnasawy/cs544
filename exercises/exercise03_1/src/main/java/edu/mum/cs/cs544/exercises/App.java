@@ -12,7 +12,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-public class AppOwner {
+public class App {
 
 	private static final SessionFactory sessionFactory;
 	private static final ServiceRegistry serviceRegistry;
@@ -25,8 +25,7 @@ public class AppOwner {
 	}
 
 	/*
-	 * • Open a session • Create 3 books save them to the database • Close the
-	 * session
+	 * • creates two cars, and associates an owner with each one before persisting it
 	 * 
 	 */
 	public static void task1() {
@@ -42,6 +41,15 @@ public class AppOwner {
 			Owner owner1 = new Owner("Moustafa", "Egypt");
 			// save the car
 			session.persist(owner1);
+			
+		    // Create new instance of Car and set values in it
+            Car car1 = new Car("BMW", "SDA231", 30221.00, owner1);
+            // save the car
+            session.persist(car1);
+            // Create new instance of Car and set values in it
+            Car car2 = new Car("Mercedes", "HOO100", 4088.00, owner1);
+            // save the car
+            session.persist(car2);
 
 			tx.commit();
 
@@ -60,8 +68,7 @@ public class AppOwner {
 
 	/*
 	 * 
-	 * Open a session • Retrieve all books and output them to the console • Close
-	 * the session
+	 * Then when retrieving the cars also print the details of each owner
 	 */
 	public static void task2() {
 		// Hibernate placeholders
@@ -72,13 +79,13 @@ public class AppOwner {
 			session = sessionFactory.openSession();
 			tx = session.beginTransaction();
 
-			// Retrieve all books
-			@SuppressWarnings("unchecked")
-			List<Owner> ownerList = session.createQuery("from Owner").list();
-			for (Owner owner : ownerList) {
-				System.out.println(owner.toString());
-			}
-			tx.commit();
+		     // retieve all cars
+            @SuppressWarnings("unchecked")
+            List<Car> carList = session.createQuery("from Car").list();
+            for (Car car : carList) {
+                System.out.println(car.toString());
+            }
+            tx.commit();
 
 		} catch (HibernateException e) {
 			if (tx != null) {
