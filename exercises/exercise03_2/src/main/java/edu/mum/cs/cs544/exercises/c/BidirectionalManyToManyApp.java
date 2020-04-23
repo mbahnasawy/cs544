@@ -35,14 +35,13 @@ public class BidirectionalManyToManyApp {
 			session = sessionFactory.openSession();
 			tx = session.beginTransaction();
 
-			Publisher p1 = new Publisher("Moustafa");
-			session.persist(p1);
+			Course c1 = new Course("EA", "cs544");
+			session.persist(c1);
 			
-            Book b1 = new Book("1111","Clean Code", p1);
-            session.persist(b1);
+            Student s1 = new Student("Moustafa", "Bahnasawy");
+            session.persist(s1);
             
-            Book b2 = new Book("2222","Chracking the Code");
-            session.persist(b2);
+            s1.enrollmentInCourse(c1);
 
 			tx.commit();
 
@@ -73,9 +72,13 @@ public class BidirectionalManyToManyApp {
 			tx = session.beginTransaction();
 
             @SuppressWarnings("unchecked")
-            List<Book> list = session.createQuery("from Book").list();
-            for (Book b : list) {
-                System.out.println(b.toString());
+            List<Student> list = session.createQuery("from Student").list();
+            for (Student s : list) {
+                System.out.println(s.toString());
+                System.out.println(" is taking courses");
+                for(Course c: s.getCourses()) {
+                	System.out.println(c.getCourseNumber());
+                }
             }
             tx.commit();
 
