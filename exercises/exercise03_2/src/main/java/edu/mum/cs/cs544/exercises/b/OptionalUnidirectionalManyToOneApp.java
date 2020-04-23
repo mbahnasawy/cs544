@@ -35,19 +35,14 @@ public class OptionalUnidirectionalManyToOneApp {
 			session = sessionFactory.openSession();
 			tx = session.beginTransaction();
 
-			// Create new instance of book1 and set values in it
-			Owner owner1 = new Owner("Moustafa", "Egypt");
-			// save the car
-			session.persist(owner1);
+			Publisher p1 = new Publisher("Moustafa");
+			session.persist(p1);
 			
-		    // Create new instance of Car and set values in it
-            Car car1 = new Car("BMW", "SDA231", 30221.00, owner1);
-            // save the car
-            session.persist(car1);
-            // Create new instance of Car and set values in it
-            Car car2 = new Car("Mercedes", "HOO100", 4088.00, owner1);
-            // save the car
-            session.persist(car2);
+            Book b1 = new Book("1111","Clean Code", p1);
+            session.persist(b1);
+            
+            Book b2 = new Book("2222","Chracking the Code");
+            session.persist(b2);
 
 			tx.commit();
 
@@ -77,11 +72,10 @@ public class OptionalUnidirectionalManyToOneApp {
 			session = sessionFactory.openSession();
 			tx = session.beginTransaction();
 
-		     // retieve all cars
             @SuppressWarnings("unchecked")
-            List<Car> carList = session.createQuery("from Car").list();
-            for (Car car : carList) {
-                System.out.println(car.toString());
+            List<Book> list = session.createQuery("from Book").list();
+            for (Book b : list) {
+                System.out.println(b.toString());
             }
             tx.commit();
 
