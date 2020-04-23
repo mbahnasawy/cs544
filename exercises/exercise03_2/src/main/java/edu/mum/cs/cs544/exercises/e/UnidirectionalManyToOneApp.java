@@ -1,6 +1,9 @@
 package edu.mum.cs.cs544.exercises.e;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -26,7 +29,7 @@ public class UnidirectionalManyToOneApp {
 	 * • creates two cars, and associates an owner with each one before persisting it
 	 * 
 	 */
-	public static void task1() {
+	public static void task1() throws ParseException {
 		// Hibernate placeholders
 		Session session = null;
 		Transaction tx = null;
@@ -35,19 +38,19 @@ public class UnidirectionalManyToOneApp {
 			session = sessionFactory.openSession();
 			tx = session.beginTransaction();
 
-			// Create new instance of book1 and set values in it
-			Owner owner1 = new Owner("Moustafa", "Egypt");
-			// save the car
-			session.persist(owner1);
+			Customer c1 = new Customer("Mostafa Bahnasawy");
+			session.persist(c1);
 			
-		    // Create new instance of Car and set values in it
-            Car car1 = new Car("BMW", "SDA231", 30221.00, owner1);
-            // save the car
-            session.persist(car1);
-            // Create new instance of Car and set values in it
-            Car car2 = new Car("Mercedes", "HOO100", 4088.00, owner1);
-            // save the car
-            session.persist(car2);
+			Publisher p1 = new Publisher("Paymen Salek");
+			session.persist(p1);
+			
+            Book b1 = new Book("1111","Enterprise Archeticture", p1);
+            session.save(b1);
+			
+			Reservation r1 = new Reservation(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2020"), b1);
+			
+			c1.addReservation(r1);
+		
 
 			tx.commit();
 
@@ -79,9 +82,16 @@ public class UnidirectionalManyToOneApp {
 
 		     // retieve all cars
             @SuppressWarnings("unchecked")
-            List<Car> carList = session.createQuery("from Car").list();
-            for (Car car : carList) {
-                System.out.println(car.toString());
+            List<Customer> list = session.createQuery("from Customer").list();
+            for (Customer c : list) {
+                System.out.println(c.toString());
+                
+                System.out.println("Is resrerved: ");
+                for(Reservation r: c.getReservations()) {
+                	System.out.println("Book: " + r.getBook().getTitle() 
+                			+ "Published by: " + r.getBook().getAuthor()+
+                			" , on " + r.getDate());
+                }
             }
             tx.commit();
 
@@ -98,7 +108,7 @@ public class UnidirectionalManyToOneApp {
 
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
 		// TODO Auto-generated method stub
 
 		System.out.println("-------- Task 1 ---------------- ");

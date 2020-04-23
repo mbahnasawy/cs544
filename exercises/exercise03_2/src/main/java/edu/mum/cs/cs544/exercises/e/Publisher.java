@@ -6,24 +6,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Owner {
+public class Publisher {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
-	private String address;
-	
-	
 
-	public Owner(String name, String address) {
+	public Publisher(String name) {
 
 		this.name = name;
-		this.address = address;
 	}
 
 	// Default Constructor
-	public Owner() {
+	public Publisher() {
 
 	}
 
@@ -43,17 +39,9 @@ public class Owner {
 		this.name = name;
 	}
 
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
 	@Override
 	public String toString() {
-		return "Owner Id: " + this.id + " ,Name : " + this.name + " , Address: " + this.address ;
+		return "Publisher Id: " + this.id + " ,Name : " + this.name  ;
 	}
 
 }
