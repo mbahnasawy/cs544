@@ -1,5 +1,7 @@
 package edu.mum.cs.cs544.exercises.b;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -27,7 +29,7 @@ public class ListApp {
 	 * 
 	 */
 	public static void task1() {
-		// Hibernate placeholders
+
 		Session session = null;
 		Transaction tx = null;
 
@@ -35,18 +37,28 @@ public class ListApp {
 			session = sessionFactory.openSession();
 			tx = session.beginTransaction();
 
-			Publisher p1 = new Publisher("Moustafa");
+			Passenger p1 = new Passenger("Moustafa");
 			session.persist(p1);
 			
-            Book b1 = new Book("1111","Clean Code", p1);
-            session.persist(b1);
+            Flight f1 = new Flight("SV105", "Chicago", "Cidar Rapids", 
+            		new SimpleDateFormat("dd/MM/yyyy").parse("15/05/2020"));
+            session.persist(f1);
             
-            Book b2 = new Book("2222","Chracking the Code");
-            session.persist(b2);
-
+            Flight f2 = new Flight("SV106", "Cidar Rapids", "Chicago", 
+            		new SimpleDateFormat("dd/MM/yyyy").parse("18/05/2020"));
+            session.persist(f2);
+            
+            p1.addFlight(f1);
+            p1.addFlight(f2);
+         
 			tx.commit();
 
 		} catch (HibernateException e) {
+			if (tx != null) {
+				System.err.println("Rolling back: " + e.getMessage());
+				tx.rollback();
+			}
+		} catch (ParseException e) {
 			if (tx != null) {
 				System.err.println("Rolling back: " + e.getMessage());
 				tx.rollback();
@@ -73,9 +85,13 @@ public class ListApp {
 			tx = session.beginTransaction();
 
             @SuppressWarnings("unchecked")
-            List<Book> list = session.createQuery("from Book").list();
-            for (Book b : list) {
-                System.out.println(b.toString());
+            List<Passenger> list = session.createQuery("from Passenger").list();
+            for (Passenger p : list) {
+                System.out.println(p.toString());
+                System.out.println("His current flights are:");
+                for(Flight f: p.getFlights()) {
+                	System.out.println(f.toString());
+                }
             }
             tx.commit();
 
