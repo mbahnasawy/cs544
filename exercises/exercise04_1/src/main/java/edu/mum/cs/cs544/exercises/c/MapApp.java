@@ -23,8 +23,8 @@ public class MapApp {
 	}
 
 	/*
-	 * • creates two cars, and associates an owner with each one before persisting it
 	 * 
+	 * Create School and students
 	 */
 	public static void task1() {
 		// Hibernate placeholders
@@ -35,13 +35,26 @@ public class MapApp {
 			session = sessionFactory.openSession();
 			tx = session.beginTransaction();
 
-			Course c1 = new Course("EA", "cs544");
-			session.persist(c1);
+			School sc1 = new School("Maharishi School");
+			session.persist(sc1);
 			
             Student s1 = new Student("Moustafa", "Bahnasawy");
             session.persist(s1);
             
-            s1.enrollmentInCourse(c1);
+            Student s2 = new Student("Ahmed", "Yassen");
+            session.persist(s2);
+            
+            Student s3 = new Student("Payman", "Salek");
+            session.persist(s3);
+ 
+            sc1.addStudentToSchool(s1);
+            sc1.addStudentToSchool(s2);
+            sc1.addStudentToSchool(s3);
+            
+            School sc2 = new School("Harvard School");
+			session.persist(sc2);
+			
+			sc2.addStudentToSchool(s2);
 
 			tx.commit();
 
@@ -58,9 +71,10 @@ public class MapApp {
 
 	}
 
+	
 	/*
 	 * 
-	 * Then when retrieving the cars also print the details of each owner
+	 * Retrieve school and students
 	 */
 	public static void task2() {
 		// Hibernate placeholders
@@ -72,12 +86,12 @@ public class MapApp {
 			tx = session.beginTransaction();
 
             @SuppressWarnings("unchecked")
-            List<Student> list = session.createQuery("from Student").list();
-            for (Student s : list) {
+            List<School> list = session.createQuery("from School").list();
+            for (School s : list) {
                 System.out.println(s.toString());
-                System.out.println(" is taking courses");
-                for(Course c: s.getCourses()) {
-                	System.out.println(c.getCourseNumber());
+                System.out.println(" has the following students");
+                for(int stID: s.getStudents().keySet()) {
+                	System.out.println(s.getStudents().get(stID).toString());
                 }
             }
             tx.commit();

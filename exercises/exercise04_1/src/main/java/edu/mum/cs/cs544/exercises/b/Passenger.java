@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -17,6 +18,7 @@ public class Passenger {
 	private int id;
 	private String name;
 	@OneToMany(cascade = CascadeType.PERSIST) // no need to put mapped by because it is uni-directional relation
+	@JoinColumn(name ="passenger_id")
 	private java.util.Collection<Flight> flights = new ArrayList<Flight>();
 
 	public Passenger() {
