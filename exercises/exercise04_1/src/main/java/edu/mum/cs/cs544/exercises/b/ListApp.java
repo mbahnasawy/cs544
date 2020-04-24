@@ -10,7 +10,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-public class OptionalUnidirectionalManyToOneApp {
+public class ListApp {
 
 	private static final SessionFactory sessionFactory;
 	private static final ServiceRegistry serviceRegistry;

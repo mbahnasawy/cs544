@@ -10,7 +10,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-public class BidirectionalOneToManyApp {
+public class SetApp {
 
 	private static final SessionFactory sessionFactory;
 	private static final ServiceRegistry serviceRegistry;
@@ -23,29 +23,33 @@ public class BidirectionalOneToManyApp {
 	}
 
 	/*
-	 * • creates two cars, and associates an owner with each one before persisting it
+	 * • creates two laptops and set them to employee
 	 * 
 	 */
 	public static void task1() {
-		// Hibernate placeholders
+		
 		Session session = null;
 		Transaction tx = null;
 
 		try {
 			session = sessionFactory.openSession();
 			tx = session.beginTransaction();
-
-			// Create new instance of book1 and set values in it
-			Department d1 = new Department("HR");
-			// save the car
-			session.persist(d1);
 			
-		    // Create new instance of Car and set values in it
-            Employee e1 = new Employee("Moustafa");
-            // save the car
+            Employee e1 = new Employee("Moustafa", "Bahnasawy");
             session.persist(e1);
-            // Create new instance of Car and set values in it
-           d1.addEmployee(e1);
+            
+           	Laptop l1 = new Laptop("HP", "Pavalion 15");
+           	session.persist(l1);
+           	
+         	Laptop l2 = new Laptop("Macbook", "Pro Book 16 inch");
+           	session.persist(l2);
+           	
+        	Laptop l3 = new Laptop("Macbook", "Pro Book 16 inch");
+           	session.persist(l3);
+           	
+           	e1.addLaptop(l1);
+           	e1.addLaptop(l2);
+           	e1.addLaptop(l3);
 
 			tx.commit();
 
@@ -64,7 +68,7 @@ public class BidirectionalOneToManyApp {
 
 	/*
 	 * 
-	 * Then when retrieving the cars also print the details of each owner
+	 * Retrieve all employees with their own laptops
 	 */
 	public static void task2() {
 		// Hibernate placeholders
@@ -74,15 +78,14 @@ public class BidirectionalOneToManyApp {
 		try {
 			session = sessionFactory.openSession();
 			tx = session.beginTransaction();
-
-		     // retieve all cars
+			
             @SuppressWarnings("unchecked")
-            List<Department> dList = session.createQuery("from Department").list();
-            for (Department d : dList) {
-                System.out.println("Departement:" +d.getName());
-                System.out.println("Include Employees");
-                for(Employee e: d.getEmployees()) {
-                	System.out.println(e.getName());
+            List<Employee> list = session.createQuery("from Employee").list();
+            for (Employee e : list) {
+                System.out.println("Employee:" +e.toString());
+                System.out.println("has laptops");
+                for(Laptop l: e.getLaptops()) {
+                	System.out.println(l.toString());
                 }
             }
             tx.commit();
@@ -101,7 +104,6 @@ public class BidirectionalOneToManyApp {
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 		System.out.println("-------- Task 1 ---------------- ");
 		task1();
