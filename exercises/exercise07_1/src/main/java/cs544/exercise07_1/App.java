@@ -2,12 +2,14 @@ package cs544.exercise07_1;
 
 import java.util.List;
 
+
 import cs544.exercise07_1.model.Airline;
 import cs544.exercise07_1.model.Airplane;
 import cs544.exercise07_1.model.Airport;
 import cs544.exercise07_1.model.Flight;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -27,130 +29,9 @@ public class App {
                         configuration.getProperties()).build();
         sessionFactory = configuration.buildSessionFactory(serviceRegistry);
     }
-
-    public static void main(String[] args) {
-        // Hibernate placeholders
-        Session session = null;
-        Transaction tx = null;
-
-        // fill the database
-        fillDataBase();
-
-        // a) Flights leaving USA capacity > 500
-        try {
-            session = sessionFactory.openSession();
-            tx = session.beginTransaction();
-
-            // TODO update HQL
-            @SuppressWarnings("unchecked")
-            List<Flight> flights = session.createQuery("from Flight").list();
-
-            System.out.println("Flight:  Departs:     "
-                    + "                  Arrives:");
-            for (Flight flight : flights) {
-                System.out.printf("%-7s  %-12s %7s %8s  %-12s %7s %8s\n",
-                        flight.getFlightnr(), flight.getOrigin().getCity(),
-                        flight.getDepartureDate(), flight.getDepartureTime(),
-                        flight.getDestination().getCity(), flight
-                        .getArrivalDate(), flight.getArrivalTime());
-            }
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx != null) {
-                tx.rollback();
-                e.printStackTrace(System.err);
-            }
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-
-        // b) All airlines that use A380 airplanes
-        try {
-            session = sessionFactory.openSession();
-            tx = session.beginTransaction();
-
-            // TODO update HQL
-            @SuppressWarnings("unchecked")
-            List<Airline> airlines = session.createQuery("from Airline").list();
-            System.out.println("Airlines:");
-            for (Airline airline : airlines) {
-                System.out.printf("%-15s\n", airline.getName());
-            }
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx != null) {
-                tx.rollback();
-                e.printStackTrace(System.err);
-            }
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-
-        // c) Flights using 747 planes that don't belong to Star Alliance
-        try {
-            session = sessionFactory.openSession();
-            tx = session.beginTransaction();
-
-            // TODO update HQL
-            @SuppressWarnings("unchecked")
-            List<Flight> flights = session.createQuery("from Flight").list();
-            System.out.println("Flight:  Departs:     "
-                    + "                  Arrives:");
-            for (Flight flight : flights) {
-                System.out.printf("%-7s  %-12s %7s %8s  %-12s %7s %8s\n",
-                        flight.getFlightnr(), flight.getOrigin().getCity(),
-                        flight.getDepartureDate(), flight.getDepartureTime(),
-                        flight.getDestination().getCity(), flight
-                        .getArrivalDate(), flight.getArrivalTime());
-            }
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx != null) {
-                tx.rollback();
-                e.printStackTrace(System.err);
-            }
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-
-        // d) All flights leaving before 12pm on 08/07/2009
-        try {
-            session = sessionFactory.openSession();
-            tx = session.beginTransaction();
-
-            // TODO update HQL
-            @SuppressWarnings("unchecked")
-            List<Flight> flights = session.createQuery("from Flight").list();
-            System.out.println("Flight:  Departs:     "
-                    + "                  Arrives:");
-            for (Flight flight : flights) {
-                System.out.printf("%-7s  %-12s %7s %8s  %-12s %7s %8s\n",
-                        flight.getFlightnr(), flight.getOrigin().getCity(),
-                        flight.getDepartureDate(), flight.getDepartureTime(),
-                        flight.getDestination().getCity(), flight
-                        .getArrivalDate(), flight.getArrivalTime());
-            }
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx != null) {
-                tx.rollback();
-                e.printStackTrace(System.err);
-            }
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-        System.exit(0);
-    }
-
+    
     public static void fillDataBase() {
+
         Session session = null;
         Transaction tx = null;
 
@@ -237,5 +118,166 @@ public class App {
                 session.close();
             }
         }
+    }
+    
+    public static void excuteQueryA() {
+     
+        Session session = null;
+        Transaction tx = null;
+
+
+        try {
+            session = sessionFactory.openSession();
+            tx = session.beginTransaction();
+           
+            Query query = session.createQuery("select f from Flight f join f.airplane a where a.capacity > :capacity");
+            query.setParameter("capacity", 500);
+            
+            @SuppressWarnings("unchecked")
+            List<Flight> flights = query.list();
+            System.out.println("------ a) Flights leaving USA capacity > 500 ---------");
+            System.out.println("Flight:  Departs:     "
+                    + "                  Arrives:");
+            for (Flight flight : flights) {
+                System.out.printf("%-7s  %-12s %7s %8s  %-12s %7s %8s\n",
+                        flight.getFlightnr(), flight.getOrigin().getCity(),
+                        flight.getDepartureDate(), flight.getDepartureTime(),
+                        flight.getDestination().getCity(), flight
+                        .getArrivalDate(), flight.getArrivalTime());
+            }
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+                e.printStackTrace(System.err);
+            }
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+
+    }
+
+    public static void excuteQueryB() {
+       
+        Session session = null;
+        Transaction tx = null;
+
+        try {
+            session = sessionFactory.openSession();
+            tx = session.beginTransaction();
+
+            Query query = session.createQuery("select distinct al from Airline al join al.flights f "
+            		+ " join f.airplane ap where ap.model = :model");
+            query.setParameter("model", "A380");
+            
+            @SuppressWarnings("unchecked")
+            List<Airline> airlines = query.list();
+            System.out.println("------ b) All airlines that use A380 airplanes ---------");
+            System.out.println("Airlines:");
+            for (Airline airline : airlines) {
+                System.out.printf("%-15s\n", airline.getName());
+            }
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+                e.printStackTrace(System.err);
+            }
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+    
+    public static void excuteQueryC() {
+    
+        Session session = null;
+        Transaction tx = null;
+
+        try {
+            session = sessionFactory.openSession();
+            tx = session.beginTransaction();
+
+            Query query = session.createQuery("select f from Flight f join f.airplane ap join f.airline al where ap.model = :model"
+            		+ "  and al.name <> :airlineName");
+            query.setParameter("model", "747");
+            query.setParameter("airlineName", "Star Alliance");
+  
+            @SuppressWarnings("unchecked")
+            List<Flight> flights = query.list();
+            System.out.println("------ c) Flights using 747 planes that don't belong to Star Alliance ---------");
+            System.out.println("Flight:  Departs:     "
+                    + "                  Arrives:");
+            for (Flight flight : flights) {
+                System.out.printf("%-7s  %-12s %7s %8s  %-12s %7s %8s\n",
+                        flight.getFlightnr(), flight.getOrigin().getCity(),
+                        flight.getDepartureDate(), flight.getDepartureTime(),
+                        flight.getDestination().getCity(), flight
+                        .getArrivalDate(), flight.getArrivalTime());
+            }
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+                e.printStackTrace(System.err);
+            }
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+    
+    public static void excuteQueryD() {
+    
+        Session session = null;
+        Transaction tx = null;
+
+        try {
+            session = sessionFactory.openSession();
+            tx = session.beginTransaction();
+
+            Query query = session.createQuery("from Flight where departureDate < Date(:departureDate) or departureDate = Date(:departureDate) and departureTime < Time(:departureTime)");
+            query.setParameter("departureDate", "2009-08-07");
+            query.setParameter("departureTime", "12:00:00");
+            
+            @SuppressWarnings("unchecked")
+            List<Flight> flights = query.list();
+            System.out.println("------ d) All flights leaving before 12pm on 08/07/2009 ---------");
+            System.out.println("Flight:  Departs:     "
+                    + "                  Arrives:");
+            for (Flight flight : flights) {
+                System.out.printf("%-7s  %-12s %7s %8s  %-12s %7s %8s\n",
+                        flight.getFlightnr(), flight.getOrigin().getCity(),
+                        flight.getDepartureDate(), flight.getDepartureTime(),
+                        flight.getDestination().getCity(), flight
+                        .getArrivalDate(), flight.getArrivalTime());
+            }
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+                e.printStackTrace(System.err);
+            }
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+  public static void main(String[] args) {
+
+        fillDataBase();
+
+        excuteQueryA();
+        excuteQueryB();
+        excuteQueryC();
+        excuteQueryD();
+
+        System.exit(0);
     }
 }
