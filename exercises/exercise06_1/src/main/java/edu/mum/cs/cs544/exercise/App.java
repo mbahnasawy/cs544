@@ -10,7 +10,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-public class SetApp {
+public class App {
 
 	private static final SessionFactory sessionFactory;
 	private static final ServiceRegistry serviceRegistry;
@@ -34,23 +34,26 @@ public class SetApp {
 		try {
 			session = sessionFactory.openSession();
 			tx = session.beginTransaction();
-			
-            Employee e1 = new Employee("Moustafa", "Bahnasawy");
-            session.persist(e1);
-            
-           	Laptop l1 = new Laptop("HP", "Pavalion 15");
-           	session.persist(l1);
-           	
-         	Laptop l2 = new Laptop("Macbook", "Pro Book 16 inch");
-           	session.persist(l2);
-           	
-        	Laptop l3 = new Laptop("Macbook", "Pro Book 16 inch");
-           	session.persist(l3);
-           	
-           	e1.addLaptop(l1);
-           	e1.addLaptop(l2);
-           	e1.addLaptop(l3);
 
+			//TODO 
+			Patient p1 = new Patient("Moustafa", "1000 N 4th St", "52557", "Fairfield");
+			session.persist(p1);
+			
+			Payment payment = new Payment("20/05/2020", 100.0);
+			//session.persist(payment);
+			
+			Doctor d1 = new Doctor("Dentist", "Ahmed", "Yassen");
+			session.persist(d1);
+			
+			Doctor d2 = new Doctor("Optical", "Hany", "Salek");
+			session.persist(d2);
+			
+			Appointment a1 = new Appointment("21/05/2020", p1, payment, d1);
+			session.persist(a1);
+			
+			Appointment a2 = new Appointment("22/05/2020", p1, payment, d2);
+			session.persist(a2);
+			
 			tx.commit();
 
 		} catch (HibernateException e) {
@@ -80,13 +83,9 @@ public class SetApp {
 			tx = session.beginTransaction();
 			
             @SuppressWarnings("unchecked")
-            List<Employee> list = session.createQuery("from Employee").list();
-            for (Employee e : list) {
-                System.out.println("Employee:" +e.toString());
-                System.out.println("has laptops");
-                for(Laptop l: e.getLaptops()) {
-                	System.out.println(l.toString());
-                }
+            List<Appointment> list = session.createQuery("from Appointment").list();
+            for (Appointment a : list) {
+                System.out.println(a.toString());
             }
             tx.commit();
 
