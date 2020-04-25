@@ -47,3 +47,8 @@ examples/example23-rmi-2/target/classes/META-INF/maven/edu.mum.cs.cs544/example2
 examples/example24-jms-receiver-1/target/classes/META-INF/maven/cs544/example24-jms-receiver-1/pom.properties
 examples/example24-jms-sender-1/target/classes/META-INF/maven/cs544/example24-jms-sender-1/pom.properties
 examples/example25-restdemo-1/target/m2e-wtp/web-resources/META-INF/maven/org.springframework.samples.service.service/example25-restdemo-1/pom.properties
+exercises/exercise00_1/target/m2e-wtp/web-resources/META-INF/maven/cs544/exercise00_1/pom.properties
+exercises/exercise16_2/target/m2e-wtp/web-resources/META-INF/maven/cs544/exercise16_2/pom.properties
+exercises/exercise19.1/target/m2e-wtp/web-resources/META-INF/maven/cs544/exercise19.1/pom.properties
+exercises/exercise25_1-service/target/m2e-wtp/web-resources/META-INF/maven/cs544/exercise25_1-service/pom.properties
+exercises/exercise25_2-service/target/m2e-wtp/web-resources/META-INF/maven/cs544/exercise25_2-service/pom.properties
