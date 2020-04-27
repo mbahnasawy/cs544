@@ -27,6 +27,8 @@
 
 		<!-- Mapping files -->
 		<!-- <mapping resource="Laptop.hbm.xml" /> -->
-		<mapping resource="Book.hbm.xml" />
+<!-- 		<mapping resource="Book.hbm.xml" /> -->
+			<!-- Mapping files -->
+		<mapping class="cs544.exercises02_2.Vehicle" />
 	</session-factory>
 </hibernate-configuration>

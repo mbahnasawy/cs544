@@ -22,7 +22,13 @@
 		<property name="hbm2ddl.auto">create</property>
 
 		<!-- Mapping files -->
-		<mapping class="edu.mum.cs.cs544.exercises.Car" />
-		<mapping class="edu.mum.cs.cs544.exercises.Owner" />
+		<mapping class="edu.mum.cs.cs544.exercises.Person" />
+		<mapping class="edu.mum.cs.cs544.exercises.Pet" />
+		<mapping class="edu.mum.cs.cs544.exercises.Toy" />
+		<mapping class="edu.mum.cs.cs544.exercises.Ball" />
+				<mapping class="edu.mum.cs.cs544.exercises.StuffedAnimal" />
+		<!-- <mapping class="edu.mum.cs.cs544.exercises.Vehicle" />
+<mapping class="edu.mum.cs.cs544.exercises.Wheel" />
+<mapping class="edu.mum.cs.cs544.exercises.Bike" /> -->
 	</session-factory>
 </hibernate-configuration>

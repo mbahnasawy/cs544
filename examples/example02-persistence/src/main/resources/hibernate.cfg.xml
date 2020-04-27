@@ -22,6 +22,8 @@
 		<property name="hbm2ddl.auto">create</property>
 
 		<!-- Mapping files -->
-		<mapping class="edu.mum.cs.cs544.examples.Person" />
+		<mapping class="edu.mum.cs.cs544.examples.Course" />
+		<mapping class="edu.mum.cs.cs544.examples.Enrollment" />
+		<mapping class="edu.mum.cs.cs544.examples.Student" />
 	</session-factory>
 </hibernate-configuration>

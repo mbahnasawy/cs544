@@ -29,30 +29,7 @@ public class Application {
 			session = sessionFactory.openSession();
 			tx = session.beginTransaction();
 			
-			// Create new instance of Employee and set values in it
-			Person person1 = new Person("John", "Doe");
-			Person person2 = new Person("Frank", "Miller");
-			
-			// save the person
-			person1 = (Person)session.merge(person1);
-			
-			session.persist(person2);
-			System.out.println(person1);
-			session.persist(person1);
-			System.out.println(person1);
-
-			tx.commit();
-
-			session = sessionFactory.openSession();
-			tx = session.beginTransaction();
-			
-			session.saveOrUpdate(person1);
-			
-			// retrieve all persons
-			List<Person> personList = session.createQuery("from Person").list();
-			for (Person p : personList) {
-				System.out.println(p);
-			}
+	
 			tx.commit();
 		} catch (HibernateException e) {
 			tx.rollback();
