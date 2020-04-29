@@ -1,9 +1,16 @@
 package cs544.exercise11_2;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 public class App 
 {
 	public static void main(String[] args) {
-		IProductService productService = new ProductService();
+		//IProductService productService = new ProductService();
+		
+		 ApplicationContext context = new ClassPathXmlApplicationContext("springconfig.xml");
+		 
+		 IProductService productService = context.getBean("productService", IProductService.class);
 
 		Product product1 = productService.getProduct(423);
 		if (product1 != null) {
