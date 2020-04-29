@@ -2,17 +2,12 @@ package cs544.exercise11_3;
 
 import java.util.*;
 
+
 public class BookService implements IBookService {
-	public List<IBookSupplier> suppliers = new ArrayList<IBookSupplier>();
-
-	public BookService() {
-		IBookSupplier amazon = new Amazon();
-		IBookSupplier barnesandnoble = new BarnesAndNoble();
-		IBookSupplier ebooks = new EBooks();
-
-		suppliers.add(amazon);
-		suppliers.add(barnesandnoble);
-		suppliers.add(ebooks);
+	public List<IBookSupplier> suppliers ;
+	
+	public BookService(List<IBookSupplier> suppliers ) {
+		this.suppliers = suppliers;
 	}
 
 	public void buy(Book book) {
