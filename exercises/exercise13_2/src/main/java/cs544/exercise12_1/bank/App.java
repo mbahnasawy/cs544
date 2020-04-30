@@ -14,8 +14,10 @@ import cs544.exercise12_1.bank.service.IAccountService;
 public class App {
 	public static void main(String[] args) {
 	//	IAccountService accountService = new AccountService();
+		
+		String[] xmlResources ={"accountService.xml", "dataAccess.xml", "jmsService.xml", "logService.xml"};
 		@SuppressWarnings("resource")
-		ApplicationContext context = new ClassPathXmlApplicationContext("springconfig.xml");
+		ApplicationContext context = new ClassPathXmlApplicationContext(xmlResources);
 
 		IAccountService accountService = context.getBean("accountService", IAccountService.class);
 		
