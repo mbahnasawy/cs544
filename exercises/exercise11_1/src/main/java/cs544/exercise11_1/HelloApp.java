@@ -7,9 +7,12 @@ public class HelloApp {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("springconfig.xml");
-		Greeting greetingService = context.getBean("greetingService", Greeting.class);
-		greetingService.sayHello();
+		System.out.println("Testing Spring Startup");
+		ClassA classA = context.getBean("classA", ClassA.class);
+		classA.showText();
+		context.close();
 
 	}
 
