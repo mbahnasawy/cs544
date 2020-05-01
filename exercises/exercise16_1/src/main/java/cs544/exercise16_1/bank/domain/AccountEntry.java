@@ -2,7 +2,20 @@ package cs544.exercise16_1.bank.domain;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
 public class AccountEntry {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id ;
+	@Temporal(TemporalType.DATE)
 	private Date date;
 	private double amount;
 	private String description;
@@ -60,5 +73,15 @@ public class AccountEntry {
 	public void setFromPersonName(String fromPersonName) {
 		this.fromPersonName = fromPersonName;
 	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	
 	
 }
