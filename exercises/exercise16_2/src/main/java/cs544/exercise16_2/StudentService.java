@@ -13,7 +13,7 @@ public class StudentService {
 		Transaction tx = sf.getCurrentSession().beginTransaction();
 
 		studentdao = new StudentDAO();
-		Hibernate.initialize(studentdao);
+		//Hibernate.initialize(studentdao);
 		
 		tx.commit();
 	}
@@ -22,10 +22,7 @@ public class StudentService {
 		Transaction tx = sf.getCurrentSession().beginTransaction();
 
 		Student s = studentdao.load(studentid);
-		Hibernate.initialize(s);
-		for(Course c: s.getCourselist()) {
-			Hibernate.initialize(c);
-		}
+		//Hibernate.initialize(s.getCourselist());
 		tx.commit();
 		return s;
 	}

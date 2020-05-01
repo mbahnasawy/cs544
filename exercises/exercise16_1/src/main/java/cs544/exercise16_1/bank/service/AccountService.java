@@ -68,10 +68,7 @@ public class AccountService implements IAccountService {
 		Transaction tx = sf.getCurrentSession().beginTransaction();
 		Collection<Account> accounts = accountDAO.getAccounts();
 		for(Account a: accounts) {
-			Hibernate.initialize(a);
-			for(AccountEntry ae : a.getEntryList()) {
-				Hibernate.initialize(ae);
-			}
+			Hibernate.initialize(a.getEntryList());
 		}
 		
 		tx.commit();
