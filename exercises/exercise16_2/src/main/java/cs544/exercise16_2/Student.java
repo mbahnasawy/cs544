@@ -3,11 +3,20 @@ package cs544.exercise16_2;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Student {
+	@Id
 	private long studentid;
 	private String firstname;
 	private String lastname;
 	
+	@ManyToMany(cascade = CascadeType.ALL)
 	private Collection<Course> courselist = new ArrayList<Course>();
 
 	public Student() {

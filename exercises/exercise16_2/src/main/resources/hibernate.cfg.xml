@@ -5,11 +5,11 @@
 <hibernate-configuration>
 	<session-factory>
 		<!-- HSQL DB running on localhost -->
-        <property name="connection.url">jdbc:mysql://localhost/cs544</property>
-        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.username">root</property>
-        <property name="connection.password"></property>
-        <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
+     	<property name="connection.url">jdbc:mysql://localhost/cs544?serverTimezone=America/Chicago</property>
+		<property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+		<property name="connection.username">cs544</property>
+		<property name="connection.password">201511</property>
+		<property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
 
 		<!-- Use the Hibernate built-in pool for tests. -->
 		<property name="connection.pool_size">1</property>
@@ -26,7 +26,7 @@
 		<property name="current_session_context_class">thread</property>
 		
 		<!-- Mapping files -->
-		<mapping /> <!-- TODO map classes -->
-
+		<mapping class="cs544.exercise16_2.Course" />
+		<mapping class="cs544.exercise16_2.Student" />
 	</session-factory>
 </hibernate-configuration>
