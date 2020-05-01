@@ -10,20 +10,20 @@ public class StudentService {
 	private SessionFactory sf = HibernateUtil.getSessionFactory();
 	
 	public StudentService() {
-		Transaction tx = sf.getCurrentSession().beginTransaction();
+	//	Transaction tx = sf.getCurrentSession().beginTransaction();
 
 		studentdao = new StudentDAO();
 		//Hibernate.initialize(studentdao);
 		
-		tx.commit();
+		//tx.commit();
 	}
 
 	public Student getStudent(long studentid) {
-		Transaction tx = sf.getCurrentSession().beginTransaction();
+		//Transaction tx = sf.getCurrentSession().beginTransaction();
 
 		Student s = studentdao.load(studentid);
 		//Hibernate.initialize(s.getCourselist());
-		tx.commit();
+		//tx.commit();
 		return s;
 	}
 }
