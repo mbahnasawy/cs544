@@ -5,10 +5,13 @@ import java.util.*;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import cs544.exercise17_1.bank.domain.Account;
 
 @Repository
+@Transactional(propagation=Propagation.MANDATORY)
 public class AccountDAO implements IAccountDAO {
 
 	@Autowired

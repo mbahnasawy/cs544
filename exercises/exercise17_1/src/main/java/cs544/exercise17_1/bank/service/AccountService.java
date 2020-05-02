@@ -4,10 +4,11 @@ import java.util.Collection;
 
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import cs544.exercise17_1.bank.dao.IAccountDAO;
 import cs544.exercise17_1.bank.domain.Account;
@@ -17,6 +18,7 @@ import cs544.exercise17_1.bank.logging.ILogger;
 
 @Service("accountService")
 @Component
+@Transactional(propagation=Propagation.REQUIRES_NEW)
 public class AccountService implements IAccountService {
 	@Autowired
 	private IAccountDAO accountDAO;
@@ -74,21 +76,22 @@ public class AccountService implements IAccountService {
 
 	}
 
+	
 	public Account createAccount(long accountNumber, String customerName) {
 		Account account = new Account(accountNumber);
 		Customer customer = new Customer(customerName);
 		account.setCustomer(customer);
 
-		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+		//Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 		accountDAO.saveAccount(account);
-		tx.commit();
+	//	tx.commit();
 		logger.log(
 				"createAccount with parameters accountNumber= " + accountNumber + " , customerName= " + customerName);
 		return account;
 	}
 
 	public void deposit(long accountNumber, double amount) {
-		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	//	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 		Account account = accountDAO.loadAccount(accountNumber);
 		account.deposit(amount);
 		accountDAO.updateAccount(account);
@@ -96,46 +99,46 @@ public class AccountService implements IAccountService {
 		if (amount > 10000) {
 			jmsSender.sendJMSMessage("Deposit of $ " + amount + " to account with accountNumber= " + accountNumber);
 		}
-		tx.commit();
+	//	tx.commit();
 	}
 
 	public Account getAccount(long accountNumber) {
-		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	//	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 
 		Account account = accountDAO.loadAccount(accountNumber);
-		tx.commit();
+	//	tx.commit();
 		return account;
 	}
 
 	public Collection<Account> getAllAccounts() {
-		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	//	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 		Collection<Account> accounts = accountDAO.getAccounts();
 		for(Account a: accounts) {
 			Hibernate.initialize(a.getEntryList());
 		}
 		
-		tx.commit();
+	//	tx.commit();
 		return accounts ; 
 	}
 
 	public void withdraw(long accountNumber, double amount) {
-		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+		 //Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 
 		Account account = accountDAO.loadAccount(accountNumber);
 		account.withdraw(amount);
 		accountDAO.updateAccount(account);
-		tx.commit();
+	//	tx.commit();
 		logger.log("withdraw with parameters accountNumber= " + accountNumber + " , amount= " + amount);
 	}
 
 	public void depositEuros(long accountNumber, double amount) {
-		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	//	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 
 		Account account = accountDAO.loadAccount(accountNumber);
 		double amountDollars = currencyConverter.euroToDollars(amount);
 		account.deposit(amountDollars);
 		accountDAO.updateAccount(account);
-		tx.commit();
+	//	tx.commit();
 		logger.log("depositEuros with parameters accountNumber= " + accountNumber + " , amount= " + amount);
 		if (amountDollars > 10000) {
 			jmsSender.sendJMSMessage("Deposit of $ " + amount + " to account with accountNumber= " + accountNumber);
@@ -143,25 +146,25 @@ public class AccountService implements IAccountService {
 	}
 
 	public void withdrawEuros(long accountNumber, double amount) {
-		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	//	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 
 		Account account = accountDAO.loadAccount(accountNumber);
 		double amountDollars = currencyConverter.euroToDollars(amount);
 		account.withdraw(amountDollars);
 		accountDAO.updateAccount(account);
-		tx.commit();
+	//	tx.commit();
 		logger.log("withdrawEuros with parameters accountNumber= " + accountNumber + " , amount= " + amount);
 	}
 
 	public void transferFunds(long fromAccountNumber, long toAccountNumber, double amount, String description) {
-		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
+	//	Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 		
 		Account fromAccount = accountDAO.loadAccount(fromAccountNumber);
 		Account toAccount = accountDAO.loadAccount(toAccountNumber);
 		fromAccount.transferFunds(toAccount, amount, description);
 		accountDAO.updateAccount(fromAccount);
 		accountDAO.updateAccount(toAccount);
-		tx.commit();
+	//	tx.commit();
 		logger.log("transferFunds with parameters fromAccountNumber= " + fromAccountNumber + " , toAccountNumber= "
 				+ toAccountNumber + " , amount= " + amount + " , description= " + description);
 		if (amount > 10000) {
