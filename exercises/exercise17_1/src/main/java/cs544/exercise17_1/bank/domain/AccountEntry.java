@@ -1,4 +1,4 @@
-package cs544.exercise16_1.bank.domain;
+package cs544.exercise17_1.bank.domain;
 
 import java.util.Date;
 

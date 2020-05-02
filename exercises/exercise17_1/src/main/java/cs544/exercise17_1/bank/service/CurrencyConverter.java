@@ -1,6 +1,8 @@
-package cs544.exercise16_1.bank.service;
+package cs544.exercise17_1.bank.service;
 
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class CurrencyConverter implements ICurrencyConverter{
     public double euroToDollars (double amount){
 		System.out.println("CurrencyConverter: converting "+amount+" dollars to euros");

@@ -1,11 +1,9 @@
-package cs544.exercise16_1.bank.domain;
+package cs544.exercise17_1.bank.domain;
 
 import java.util.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;

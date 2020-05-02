@@ -1,34 +1,77 @@
-package cs544.exercise16_1.bank.service;
+package cs544.exercise17_1.bank.service;
 
 import java.util.Collection;
 
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import cs544.exercise16_1.bank.dao.AccountDAO;
-import cs544.exercise16_1.bank.dao.HibernateUtil;
-import cs544.exercise16_1.bank.dao.IAccountDAO;
-import cs544.exercise16_1.bank.domain.Account;
-import cs544.exercise16_1.bank.domain.AccountEntry;
-import cs544.exercise16_1.bank.domain.Customer;
-import cs544.exercise16_1.bank.jms.IJMSSender;
-import cs544.exercise16_1.bank.jms.JMSSender;
-import cs544.exercise16_1.bank.logging.ILogger;
-import cs544.exercise16_1.bank.logging.Logger;
+import cs544.exercise17_1.bank.dao.IAccountDAO;
+import cs544.exercise17_1.bank.domain.Account;
+import cs544.exercise17_1.bank.domain.Customer;
+import cs544.exercise17_1.bank.jms.IJMSSender;
+import cs544.exercise17_1.bank.logging.ILogger;
 
+@Service("accountService")
+@Component
 public class AccountService implements IAccountService {
+	@Autowired
 	private IAccountDAO accountDAO;
+	@Autowired
 	private ICurrencyConverter currencyConverter;
+	@Autowired
 	private IJMSSender jmsSender;
+	@Autowired
 	private ILogger logger;
-	private SessionFactory sf = HibernateUtil.getSessionFactory();
+	@Autowired
+	private SessionFactory sessionFactory;
+
+	
+	public IAccountDAO getAccountDAO() {
+		return accountDAO;
+	}
+
+	public void setAccountDAO(IAccountDAO accountDAO) {
+		this.accountDAO = accountDAO;
+	}
+
+	public ICurrencyConverter getCurrencyConverter() {
+		return currencyConverter;
+	}
+
+	public void setCurrencyConverter(ICurrencyConverter currencyConverter) {
+		this.currencyConverter = currencyConverter;
+	}
+
+	public IJMSSender getJmsSender() {
+		return jmsSender;
+	}
+
+	public void setJmsSender(IJMSSender jmsSender) {
+		this.jmsSender = jmsSender;
+	}
+
+	public ILogger getLogger() {
+		return logger;
+	}
+
+	public void setLogger(ILogger logger) {
+		this.logger = logger;
+	}
+
+	public SessionFactory getSf() {
+		return sessionFactory;
+	}
+
+	public void setSf(SessionFactory sf) {
+		this.sessionFactory = sf;
+	}
 
 	public AccountService() {
-		accountDAO = new AccountDAO();
-		currencyConverter = new CurrencyConverter();
-		jmsSender = new JMSSender();
-		logger = new Logger();
+
 	}
 
 	public Account createAccount(long accountNumber, String customerName) {
@@ -36,7 +79,7 @@ public class AccountService implements IAccountService {
 		Customer customer = new Customer(customerName);
 		account.setCustomer(customer);
 
-		Transaction tx = sf.getCurrentSession().beginTransaction();
+		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 		accountDAO.saveAccount(account);
 		tx.commit();
 		logger.log(
@@ -45,7 +88,7 @@ public class AccountService implements IAccountService {
 	}
 
 	public void deposit(long accountNumber, double amount) {
-		Transaction tx = sf.getCurrentSession().beginTransaction();
+		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 		Account account = accountDAO.loadAccount(accountNumber);
 		account.deposit(amount);
 		accountDAO.updateAccount(account);
@@ -57,7 +100,7 @@ public class AccountService implements IAccountService {
 	}
 
 	public Account getAccount(long accountNumber) {
-		Transaction tx = sf.getCurrentSession().beginTransaction();
+		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 
 		Account account = accountDAO.loadAccount(accountNumber);
 		tx.commit();
@@ -65,7 +108,7 @@ public class AccountService implements IAccountService {
 	}
 
 	public Collection<Account> getAllAccounts() {
-		Transaction tx = sf.getCurrentSession().beginTransaction();
+		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 		Collection<Account> accounts = accountDAO.getAccounts();
 		for(Account a: accounts) {
 			Hibernate.initialize(a.getEntryList());
@@ -76,7 +119,7 @@ public class AccountService implements IAccountService {
 	}
 
 	public void withdraw(long accountNumber, double amount) {
-		Transaction tx = sf.getCurrentSession().beginTransaction();
+		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 
 		Account account = accountDAO.loadAccount(accountNumber);
 		account.withdraw(amount);
@@ -86,7 +129,7 @@ public class AccountService implements IAccountService {
 	}
 
 	public void depositEuros(long accountNumber, double amount) {
-		Transaction tx = sf.getCurrentSession().beginTransaction();
+		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 
 		Account account = accountDAO.loadAccount(accountNumber);
 		double amountDollars = currencyConverter.euroToDollars(amount);
@@ -100,7 +143,7 @@ public class AccountService implements IAccountService {
 	}
 
 	public void withdrawEuros(long accountNumber, double amount) {
-		Transaction tx = sf.getCurrentSession().beginTransaction();
+		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 
 		Account account = accountDAO.loadAccount(accountNumber);
 		double amountDollars = currencyConverter.euroToDollars(amount);
@@ -111,7 +154,7 @@ public class AccountService implements IAccountService {
 	}
 
 	public void transferFunds(long fromAccountNumber, long toAccountNumber, double amount, String description) {
-		Transaction tx = sf.getCurrentSession().beginTransaction();
+		Transaction tx = sessionFactory.getCurrentSession().beginTransaction();
 		
 		Account fromAccount = accountDAO.loadAccount(fromAccountNumber);
 		Account toAccount = accountDAO.loadAccount(toAccountNumber);

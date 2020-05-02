@@ -1,6 +1,8 @@
-package cs544.exercise16_1.bank.jms;
+package cs544.exercise17_1.bank.jms;
 
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class JMSSender implements IJMSSender{
 	
 	public void sendJMSMessage (String text){
