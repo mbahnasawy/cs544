@@ -12,14 +12,21 @@ import javax.servlet.ServletResponse;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Servlet Filter implementation class OpenSessionInViewFilter
  */
+@Component
 public class OpenSessionInViewFilter implements Filter {
 
-	private SessionFactory sf;
+	@Autowired
+	private SessionFactory sessionFactory;
 
+	public void setSf(SessionFactory sf) {
+		this.sessionFactory = sf;
+	}
 
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
@@ -28,7 +35,7 @@ public class OpenSessionInViewFilter implements Filter {
 		
 		try {
 			
-			tx = sf.getCurrentSession().beginTransaction();
+			tx = sessionFactory.getCurrentSession().beginTransaction();
 			chain.doFilter(request, response);
 			tx.commit();
 			
@@ -56,6 +63,6 @@ public class OpenSessionInViewFilter implements Filter {
 	}
 
 	public void init(FilterConfig arg0) throws ServletException {
-		sf = HibernateUtil.getSessionFactory();
+		
 	}
 }
