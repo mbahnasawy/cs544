@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 public class BillingServiceImpl implements BillingService {
 
-    @Scheduled(cron="0/5 * * * * *")
+    @Scheduled(cron="0/7 * * * * *")
     public void printBills() {
         Date date = Calendar.getInstance().getTime();
         DateFormat timeFormatter = DateFormat.getTimeInstance(DateFormat.DEFAULT);
@@ -16,5 +16,17 @@ public class BillingServiceImpl implements BillingService {
 
         System.out.println(currenttime + "    printing bills");
     }
+
+    @Scheduled(cron="0/10 * * * * *")
+	public void generateBillingReport() {
+		// TODO Auto-generated method stub
+		
+	      Date date = Calendar.getInstance().getTime();
+	        DateFormat timeFormatter = DateFormat.getTimeInstance(DateFormat.DEFAULT);
+	        String currenttime = timeFormatter.format(date);
+
+	        System.out.println(currenttime + "    generate billing reports");
+		
+	}
 
 }
