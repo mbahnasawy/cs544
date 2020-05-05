@@ -12,6 +12,13 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class LogAdvice {
+	
+	@After("execution( * cs544.exercise13_1.EmailSender.*(..))")
+	public void logSendEmailDate1(JoinPoint joinpoint) {
+		System.out.println("Constructor");
+		System.out.println(new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").format(new Date()) +
+				" method= "+ joinpoint.getSignature().getName());
+	}
 
 	@After("execution( * cs544.exercise13_1.EmailSender.sendEmail(..))")
 	public void logSendEmailDate(JoinPoint joinpoint) {

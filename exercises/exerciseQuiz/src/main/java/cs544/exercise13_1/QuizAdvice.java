@@ -1,8 +1,10 @@
 package cs544.exercise13_1;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 
+@Aspect
 public class QuizAdvice {
 
 	private String text;
