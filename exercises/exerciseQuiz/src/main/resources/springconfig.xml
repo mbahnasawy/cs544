@@ -21,14 +21,14 @@
 	<bean id="logAdvice" class="cs544.exercise13_1.LogAdvice" />
 	<bean id="daoAdvice" class="cs544.exercise13_1.DAOAdvice" />
 
-	<bean id="mySuper" class="cs544.exercise13_1.MySuper"  abstract="true">
+	<bean id="person" class="cs544.exercise13_1.Person"  abstract="true">
 		<property name="text" value="Test" />
 	</bean>
-	<bean id="myClass" class="cs544.exercise13_1.MyClass" parent="mySuper"
+	<bean id="student" class="cs544.exercise13_1.Student" parent="person"
 		lazy-init="false">
 		<constructor-arg value="Thing" />
 	</bean>
-	<bean id="quizAdvice" class="cs544.exercise13_1.QuizAdvice"
+	<bean id="advice" class="cs544.exercise13_1.QuizAdvice"
 		init-method="start">
 		<property name="text" value="Injected" />
 	</bean>

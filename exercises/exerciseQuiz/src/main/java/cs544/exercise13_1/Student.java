@@ -1,8 +1,8 @@
 package cs544.exercise13_1;
 
-public class MyClass extends MySuper{
+public class Student extends Person{
 
-	public MyClass(String text) {
+	public Student(String text) {
 		setText(text);
 		System.out.println("MyClass Constructor");
 	}

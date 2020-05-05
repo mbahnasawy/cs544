@@ -9,7 +9,7 @@ public class AppQuiz {
 		@SuppressWarnings("resource")
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("springconfig.xml");
 		System.out.println("Testing Spring Startup");
-		MyClass mc = context.getBean("myClass", MyClass.class);
+		Student mc = context.getBean("student", Student.class);
 		mc.sayHello();
 	}
 

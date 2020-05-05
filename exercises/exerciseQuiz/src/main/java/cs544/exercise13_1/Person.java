@@ -1,6 +1,6 @@
 package cs544.exercise13_1;
 
-public class MySuper {
+public class Person {
 
 	private String text;
 
