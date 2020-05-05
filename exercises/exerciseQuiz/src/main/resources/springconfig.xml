@@ -21,7 +21,7 @@
 	<bean id="logAdvice" class="cs544.exercise13_1.LogAdvice" />
 	<bean id="daoAdvice" class="cs544.exercise13_1.DAOAdvice" />
 
-	<bean id="mySuper" class="cs544.exercise13_1.MySuper" abstract="true">
+	<bean id="mySuper" class="cs544.exercise13_1.MySuper"  abstract="true">
 		<property name="text" value="Test" />
 	</bean>
 	<bean id="myClass" class="cs544.exercise13_1.MyClass" parent="mySuper"
