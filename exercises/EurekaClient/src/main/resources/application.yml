@@ -1,0 +1,4 @@
+spring:
+  application:
+    name: EurekaClient
+sample-springdata-service: simpleSpringData

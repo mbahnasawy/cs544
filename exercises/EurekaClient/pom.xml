@@ -4,18 +4,20 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>edu.miu.common</groupId>
-		<artifactId>common-base-module</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.2.6.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>cs544.exerciseSpringDataUsingFrameWork</groupId>
-	<artifactId>simpleSpringDataUsingFrameWork</artifactId>
-	<name>simpleSpringDataUsingFrameWork</name>
-	<description>Simple Spring Data</description>
+	<groupId>cs544.exerciseEurekaClient</groupId>
+	<artifactId>EurekaClient</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>EurekaClient</name>
+	<description>Eureka Client</description>
 
 	<properties>
 		<java.version>1.8</java.version>
+		<spring-cloud.version>Hoxton.SR4</spring-cloud.version>
 	</properties>
 
 	<dependencies>
@@ -24,8 +26,20 @@
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>edu.miu.common</groupId>
-			<artifactId>common-base-service</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 
