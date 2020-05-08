@@ -38,9 +38,9 @@ http://www.springframework.org/schema/security"
 
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
-		up static resources in the ${webappRoot}/resources/ directory -->
+		up static resources in the ${webappRoot}/resources/ directory 
 	<mvc:resources mapping="/resources/**"
-		location="/resources/" /> 
+		location="/resources/" /> -->
 
 	<http auto-config="true">
 		<access-denied-handler error-page="/accessdenied" />

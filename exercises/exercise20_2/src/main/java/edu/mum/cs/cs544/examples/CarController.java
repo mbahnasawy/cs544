@@ -1,9 +1,10 @@
-package cs544.sample;
+package edu.mum.cs.cs544.examples;
 
 import java.security.Principal;
 
 import javax.annotation.Resource;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -32,6 +33,7 @@ public class CarController {
 	}
 	
 	@RequestMapping(value="/cars", method=RequestMethod.POST)
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String add(Car car) {
 		carDao.add(car);
 		return "redirect:/cars";
@@ -44,17 +46,18 @@ public class CarController {
 	}
 	
 	@RequestMapping(value="/cars/{id}", method=RequestMethod.POST)
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String update(Car car, @PathVariable int id) {
 		carDao.update(id, car); // car.id already set by binding
 		return "redirect:/cars";
 	}
 	
 	@RequestMapping(value="/cars/delete", method=RequestMethod.POST)
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String delete(int carId) {
 		carDao.delete(carId);
 		return "redirect:/cars";
 	}
-
 
 	@ExceptionHandler(value=NoSuchResourceException.class)
 	public ModelAndView handle(Exception e) {

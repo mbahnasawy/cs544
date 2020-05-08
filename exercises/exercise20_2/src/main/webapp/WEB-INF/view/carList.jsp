@@ -1,8 +1,8 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
-<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml11.dtd">
 <html>
 <head>
@@ -15,23 +15,26 @@
 		<input type="hidden" name="${_csrf.parameterName}"
 			value="${_csrf.token}" />
 	</form>
+	<c:if test="${pageContext.request.userPrincipal.name != null}">
+		<a href="javascript:document.getElementById('logout').submit()">Logout</a>
+	</c:if>
 	<h1>Cars currently in the shop</h1>
 	<table>
-	<c:forEach var="car" items="${cars}">
-	<tr>
-		<td>${car.make}</td>
-		<td>${car.model}</td>
-		<td>${car.year}</td>
-		<td>${car.color}</td>
-		<sec:authorize access="hasRole('ROLE_ADMIN')">
-		<td><a href="cars/${car.id}">edit</a></td>
-		</sec:authorize>
+		<c:forEach var="car" items="${cars}">
+			<tr>
+				<td>${car.make}</td>
+				<td>${car.model}</td>
+				<td>${car.year}</td>
+				<td>${car.color}</td>
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<td><a href="cars/${car.id}">edit</a></td>
+				</sec:authorize>
 
-	</tr>
-	</c:forEach>
+			</tr>
+		</c:forEach>
 	</table>
 	<sec:authorize access="hasRole('ROLE_ADMIN')">
-	<a href="addCar.html"> Add a Car</a>
+		<a href="addCar.html"> Add a Car</a>
 	</sec:authorize>
 </body>
 </html>
